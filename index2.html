@@ -20,21 +20,9 @@
 		<script  type="text/javascript" src="js/js.cookie.js"></script>
 		<script>
 			function test() {
-				//alert("Keep Calm Computer iz kill");
 				cleanPage();
+                $("#searchDiv").append("<div class='progress'><div class='indeterminate'></div></div>");
 				var text= document.getElementById("search").value;
-				var elm=document.getElementById("w");
-				if(elm==null){
-					var e=document.createElement('div');
-					e.className="progress";
-					e.setAttribute("id","w");
-					var e1=document.createElement('div');
-					e1.className="indeterminate";
-					e.appendChild(e1);
-					document.body.appendChild(e);}
-				else{
-					elm.parentElement.removeChild(elm);
-				}
 				e=document.getElementById('list');
 				if(e!=null)
 					e.parentElement.removeChild(e);
@@ -46,22 +34,19 @@
 					var xmlHttp = new XMLHttpRequest();
 					xmlHttp.onreadystatechange = function() { 
 						if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
-							var e3=document.getElementById("w");
-							if(e3!=null)
-								e3.parentElement.removeChild(e3);
 							var resp=JSON.parse(xmlHttp.responseText);
 							//console.log(resp);
+                            $(".progress").remove();
 							generatePage(resp,listItem);
 						}
 					}
 					console.log("foreach "+listItem);
 					generateAccordion(listItem,$("#o"+listItem).text());
-					query+="&rel[]=";
+					query+="&offset=0&rel=";
 					query+=listItem;
 					xmlHttp.open("GET", query, true); // true for asynchronous 
 					xmlHttp.send(null);			
 				});
-
 			}
 		</script>
 		<nav>
@@ -97,7 +82,7 @@
 				</div>
 			</form>
 		</div>
-		<div class="center-align col s10 m4 offset-s1 offset-m4">
+		<div class="center-align col s10 m4 offset-s1 offset-m4" id='searchDiv'>
 			<a id="p11" onclick="test()" class="waves-effect waves-light btn"><i class="material-icons right">search</i>Rechercher</a>
 		</div>
 		<div id="result_panel" class="row" style="display: none;">
